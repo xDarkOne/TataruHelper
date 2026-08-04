@@ -1,0 +1,157 @@
+[
+  {
+    "ShownName": "Auto",
+    "SystemName": "Auto",
+    "LanguageCode": "auto"
+  },
+  {
+    "ShownName": "Arabic",
+    "SystemName": "Arabic",
+    "LanguageCode": "AR"
+  },
+  {
+    "ShownName": "Bulgarian",
+    "SystemName": "Bulgarian",
+    "LanguageCode": "BG"
+  },
+  {
+    "ShownName": "Chinese Simplified",
+    "SystemName": "Chinese Simplified",
+    "LanguageCode": "ZH"
+  },
+  {
+    "ShownName": "Czech",
+    "SystemName": "Czech",
+    "LanguageCode": "CS"
+  },
+  {
+    "ShownName": "Danish",
+    "SystemName": "Danish",
+    "LanguageCode": "DA"
+  },
+  {
+    "ShownName": "Dutch",
+    "SystemName": "Dutch",
+    "LanguageCode": "NL"
+  },
+  {
+    "ShownName": "English",
+    "SystemName": "English",
+    "LanguageCode": "EN"
+  },
+  {
+    "ShownName": "Estonian",
+    "SystemName": "Estonian",
+    "LanguageCode": "ET"
+  },
+  {
+    "ShownName": "Finnish",
+    "SystemName": "Finnish",
+    "LanguageCode": "FI"
+  },
+  {
+    "ShownName": "French",
+    "SystemName": "French",
+    "LanguageCode": "FR"
+  },
+  {
+    "ShownName": "German",
+    "SystemName": "German",
+    "LanguageCode": "DE"
+  },
+  {
+    "ShownName": "Greek",
+    "SystemName": "Greek",
+    "LanguageCode": "EL"
+  },
+  {
+    "ShownName": "Hungarian",
+    "SystemName": "Hungarian",
+    "LanguageCode": "HU"
+  },
+  {
+    "ShownName": "Indonesian",
+    "SystemName": "Indonesian",
+    "LanguageCode": "ID"
+  },
+  {
+    "ShownName": "Italian",
+    "SystemName": "Italian",
+    "LanguageCode": "IT"
+  },
+  {
+    "ShownName": "Japanese",
+    "SystemName": "Japanese",
+    "LanguageCode": "JA"
+  },
+  {
+    "ShownName": "Korean",
+    "SystemName": "Korean",
+    "LanguageCode": "KO"
+  },
+  {
+    "ShownName": "Latvian",
+    "SystemName": "Latvian",
+    "LanguageCode": "LV"
+  },
+  {
+    "ShownName": "Lithuanian",
+    "SystemName": "Lithuanian",
+    "LanguageCode": "LT"
+  },
+  {
+    "ShownName": "Norwegian Bokmål",
+    "SystemName": "Norwegian Bokmål",
+    "LanguageCode": "NB"
+  },
+  {
+    "ShownName": "Polish",
+    "SystemName": "Polish",
+    "LanguageCode": "PL"
+  },
+  {
+    "ShownName": "Portuguese",
+    "SystemName": "Portuguese",
+    "LanguageCode": "PT"
+  },
+  {
+    "ShownName": "Romanian",
+    "SystemName": "Romanian",
+    "LanguageCode": "RO"
+  },
+  {
+    "ShownName": "Russian",
+    "SystemName": "Russian",
+    "LanguageCode": "RU"
+  },
+  {
+    "ShownName": "Slovak",
+    "SystemName": "Slovak",
+    "LanguageCode": "SK"
+  },
+  {
+    "ShownName": "Slovenian",
+    "SystemName": "Slovenian",
+    "LanguageCode": "SL"
+  },
+  {
+    "ShownName": "Spanish",
+    "SystemName": "Spanish",
+    "LanguageCode": "ES"
+  },
+  {
+    "ShownName": "Swedish",
+    "SystemName": "Swedish",
+    "LanguageCode": "SV"
+  },
+  {
+    "ShownName": "Turkish",
+    "SystemName": "Turkish",
+    "LanguageCode": "TR"
+  },
+  {
+    "ShownName": "Ukrainian",
+    "SystemName": "Ukrainian",
+    "LanguageCode": "UK"
+  }
+]

@@ -1,0 +1,47 @@
+﻿using System;
+using System.Diagnostics;
+using System.Drawing;
+using System.Globalization;
+using System.Runtime.Versioning;
+using System.Windows;
+using System.Windows.Data;
+using System.Windows.Interop;
+using System.Windows.Markup;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+
+namespace WpfXamlExtensions
+{
+    [SupportedOSPlatform("windows6.1")]
+    public class IconToImageSourceConverter : MarkupExtension, IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var icon = value as Icon;
+            if (icon == null)
+            {
+                Trace.TraceWarning("Attempted to convert {0} instead of Icon object in IconToImageSourceConverter",
+                    value);
+
+                return null;
+            }
+
+            ImageSource imageSource = Imaging.CreateBitmapSourceFromHIcon(
+                icon.Handle,
+                Int32Rect.Empty,
+                BitmapSizeOptions.FromEmptyOptions());
+
+            return imageSource;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override object ProvideValue(IServiceProvider serviceProvider)
+        {
+            return this;
+        }
+    }
+}
