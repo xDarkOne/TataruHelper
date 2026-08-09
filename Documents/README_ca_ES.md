@@ -1,33 +1,31 @@
-# Tataru Helper
+<p align="center">
+  <img src="./Tataru_img.png" width="112" alt="Tataru Helper app icon" />
+</p>
 
-[![Crowdin](https://badges.crowdin.net/tataru-helper/localized.svg)](https://crowdin.com/project/tataru-helper) ![Discord Shield](https://discordapp.com/api/guilds/592039000538349569/widget.png?style=shield)
+<h1 align="center">Tataru Helper</h1>
 
-## [Descarrega Ara](https://github.com/NightlyRevenger/TataruHelper/releases/latest/download/Setup.exe)( \---> Download Setup.exe)
+<p align="center">Real-time translation overlay for Final Fantasy XIV in-game text.</p>
+<p align="center">Maintained fork of the original project: <a href="https://github.com/NightlyRevenger/TataruHelper">NightlyRevenger/TataruHelper</a>.</p>
 
-## [Servidor Tataru Discord](https://discord.gg/bSrpbd9)
+<p align="center">
+  <a href="https://github.com/xDarkOne/TataruHelper/actions/workflows/build.yml"><img src="https://github.com/xDarkOne/TataruHelper/actions/workflows/build.yml/badge.svg" alt="Build" /></a>
+  <a href="https://github.com/xDarkOne/TataruHelper/releases/latest"><img src="https://img.shields.io/github/v/release/xDarkOne/TataruHelper?label=Release" alt="Release" /></a>
+  <a href="../LICENSE"><img src="https://img.shields.io/github/license/xDarkOne/TataruHelper" alt="License" /></a>
+  <img src="https://img.shields.io/badge/.NET-10-512BD4?logo=dotnet&logoColor=white" alt=".NET 10" />
+  <a href="https://crowdin.com/project/tataru-helper"><img src="https://badges.crowdin.net/tataru-helper/localized.svg" alt="Crowdin" /></a>
+  <a href="https://discord.gg/bSrpbd9"><img src="https://img.shields.io/discord/592039000538349569?label=Discord&logo=discord" alt="Discord" /></a>
+</p>
 
-* * *
+<p align="center"><strong>Download Stats</strong></p>
+<p align="center">
+  <a href="https://github.com/xDarkOne/TataruHelper/releases"><img src="https://img.shields.io/github/downloads/xDarkOne/TataruHelper/Setup.exe?label=Setup.exe%20Total" alt="Setup.exe total downloads" /></a>
+  <a href="https://github.com/xDarkOne/TataruHelper/releases/latest/download/TataruHelper-0.10.5-stable-full.nupkg"><img src="https://img.shields.io/github/downloads/xDarkOne/TataruHelper/latest/TataruHelper-0.10.5-stable-full.nupkg?label=Current%20Update%20Full" alt="Current full update file downloads" /></a>
+  <a href="https://github.com/xDarkOne/TataruHelper/releases/latest/download/TataruHelper-0.10.5-stable-delta.nupkg"><img src="https://img.shields.io/github/downloads/xDarkOne/TataruHelper/latest/TataruHelper-0.10.5-stable-delta.nupkg?label=Current%20Update%20Delta" alt="Current delta update file downloads" /></a>
+</p>
 
-![TataruHead](./Tataru_img.png) ![LiveAction](./LiveAction.gif)
+<p align="center"><strong><a href="https://github.com/xDarkOne/TataruHelper/releases/latest/download/Setup.exe">Download Setup.exe</a></strong> · <a href="./Guide.MD">Guide</a> · <a href="https://discord.gg/bSrpbd9">Discord</a></p>
 
-## [Demostració](https://youtu.be/7HiQXzmkQuw)
-
-## [Donacions](https://github.com/NightlyRevenger/TataruHelper/blob/master/README.md#support)
-
-* * *
-
-## Taula de continguts
-
-* [Català](#Català) 
-   * [Instal·lació](#Instal·lació)
-   * [Com utilitzar](#Com-utilitzar)
-   * [Desenvolupament/Traducció](#desenvolupamentdetraducció)
-   * [Llicència](#llicència)
-   * [Crèdits](#crèdits)
-   * [Contactes](#contactes)
-   * [Suport](#suport)
-
-* * *
+<p align="center"><strong>Languages:</strong> <a href="../README.md">EN</a> | <a href="README_ru_RU.md">RU</a> | <a href="README_ko_KR.md">KO</a> | <a href="README_es_ES.md">ES</a> | <a href="README_ca_ES.md">CA</a> | <a href="README_pl_PL.md">PL</a> | <a href="README_pt_BR.md">PT-BR</a> | <a href="README_uk_UA.md">UK</a> | <a href="README_zh_ZH.md">ZH</a> | <a href="README_ja_JP.md">JA</a></p>
 
 #### Català
 
@@ -45,10 +43,10 @@ Ajudant Tataru - aplicació per a la traducció de texts dintre del joc en japon
 
 Ajudant Tataru requereix</strong>:  
 Windows 7 **x64** or later (**x64 només sistemes**).  
-[Microsoft .NET Framework 4.6.2 ](https://www.microsoft.com/net/download/dotnet-framework-runtime)o superior.  
+[.NET 10 SDK/Runtime](https://dotnet.microsoft.com/download)o superior.  
 Final Fantasy XIV amb **DirectX 11** i **x64</1>.</p> 
 
-1. Descarrega l'última versió de l'aplicació de [aquí](https://github.com/NightlyRevenger/TataruHelper/releases/latest)(Setup.exe).
+1. Descarrega l'última versió de l'aplicació de [aquí](https://github.com/xDarkOne/TataruHelper/releases/latest)(Setup.exe).
 2. Carrega l'arxiu Setup.exe, desprès de rebre el missatge que Windows protegeix el teu ordinador, pressiona info i carrega de totes formes. La drecera serà situada a l'escriptori.
 3. L' ajudant Tataru començara automàticament, configuri la font i la destinació del llenguatge i fes la configuració inicial.
 4. Tanqui la finestra de configuració i arrastra la finestra flotant al lloc adequat.
@@ -74,31 +72,13 @@ Si vols traduir l'aplicació al teu llenguatge, procedeix[aquí](https://crowdin
 
 Moltes gràcies a tots aquells que han col·laborat amb projectes open-source. Les següents són fonamentals per crear aquesta aplicació:  
 [WPF Toolkit™](https://github.com/xceedsoftware/wpftoolkit)  
-[BondTech.HotKeyManagement](https://github.com/bondtech/HotKey-Manager-for-WinForm-and-WPF-Apps)  
+[NHotKey.Wpf](https://github.com/thomaslevesque/NHotkey)  
 [NotifyIcon WPF](https://bitbucket.org/hardcodet/notifyicon-wpf/)  
 [Sharlayan](https://github.com/FFXIVAPP/sharlayan)  
 [Tataru Art by Nezusagi](https://www.deviantart.com/nezusagi)  
-[Squirrel.Windows](https://github.com/Squirrel/Squirrel.Windows)
-
+[Velopack](https://github.com/velopack/velopack)
 ## Contactes
 
 Aquí està el nostre servidor de discord: [clic](https://discord.gg/bSrpbd9)
 
 Si teniu algunes preguntes podeu contactar amb mi a:  
-xDarkOne:  
-Discord: xDarkOne#6486  
-Telegram: [clic](https://t.me/xDarkOne)  
-VK: [clic](https://vk.com/velikov_ra)  
-Twitch: [xDark0ne](https://www.twitch.tv/xdark0ne)  
-NightlyRevenger(developer):  
-<nightlyrevenger@yandex.ru>
-
-## Suport
-
-Si vols apoyar el projecte, utilitza el links a sota:  
-MasterCard(Sberbank): 5469 3800 2554 9048  
-Yandex.Money: [4100172621059](https://money.yandex.ru/to/4100172621059)  
-PayPal: [paypal.me/xdarkone](https://www.paypal.me/xdarkone)  
-Patreon: [TataruHelper](https://www.patreon.com/TataruHelper)
-
-* * *

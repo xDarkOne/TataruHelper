@@ -1,128 +1,99 @@
-# Tataru Helper
+<p align="center">
+  <img src="Documents/Tataru_img.png" width="112" alt="Tataru Helper app icon" />
+</p>
 
-[![Current Version](https://img.shields.io/github/release/NightlyRevenger/TataruHelper)](https://github.com/NightlyRevenger/TataruHelper/releases) ![GitHub Releases (by Asset)](https://img.shields.io/github/downloads/NightlyRevenger/TataruHelper/latest/TataruHelper-0.9.106-delta.nupkg?label=Downloads)  [![Crowdin](https://badges.crowdin.net/tataru-helper/localized.svg)](https://crowdin.com/project/tataru-helper) <a href="https://discord.gg/bSrpbd9">
-        <img src="https://img.shields.io/discord/592039000538349569?logo=discord"
-            alt="chat on Discord"></a>
+<h1 align="center">Tataru Helper</h1>
 
+<p align="center">Real-time translation overlay for Final Fantasy XIV in-game text.</p>
+<p align="center">Maintained by <a href="https://github.com/xDarkOne">xDarkOne</a>. A fork of the original project by <a href="https://github.com/NightlyRevenger/TataruHelper">NightlyRevenger</a>.</p>
 
-[Download Now](https://github.com/NightlyRevenger/TataruHelper/releases/latest/download/Setup.exe)( \---> Download Setup.exe)
--
-[Tataru's Discord Server](https://discord.gg/bSrpbd9)  
--
-[FAQ](https://github.com/NightlyRevenger/TataruHelper/wiki)  
--
-### [Описание на русском](Documents/README_ru_RU.md)  
+<p align="center">
+  <a href="https://github.com/xDarkOne/TataruHelper/actions/workflows/build.yml"><img src="https://github.com/xDarkOne/TataruHelper/actions/workflows/build.yml/badge.svg" alt="Build" /></a>
+  <a href="https://github.com/xDarkOne/TataruHelper/releases/latest"><img src="https://img.shields.io/github/v/release/xDarkOne/TataruHelper?label=Release" alt="Release" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/xDarkOne/TataruHelper" alt="License" /></a>
+  <img src="https://img.shields.io/badge/.NET-10-512BD4?logo=dotnet&logoColor=white" alt=".NET 10" />
+  <a href="https://crowdin.com/project/tataru-helper"><img src="https://badges.crowdin.net/tataru-helper/localized.svg" alt="Crowdin" /></a>
+  <a href="https://discord.gg/bSrpbd9"><img src="https://img.shields.io/discord/592039000538349569?label=Discord&logo=discord" alt="Discord" /></a>
+</p>
 
-### [한국어 설명](Documents/README_ko_KR.md) 
+<p align="center"><strong>Download Stats</strong></p>
+<p align="center">
+  <a href="https://github.com/xDarkOne/TataruHelper/releases"><img src="https://img.shields.io/github/downloads/xDarkOne/TataruHelper/Setup.exe?label=Setup%20total%20downloads" alt="Setup total downloads" /></a>
+</p>
 
-### [Descripción en español](Documents/README_es_ES.md) 
+<p align="center"><strong><a href="https://github.com/xDarkOne/TataruHelper/releases/latest/download/Setup.exe">Download Setup.exe</a></strong> · <a href="Documents/Guide.MD">Guide</a> · <a href="https://discord.gg/bSrpbd9">Discord</a></p>
 
-### [Descripció en català](Documents/README_ca_ES.md) 
+<p align="center"><strong>Languages:</strong> <a href="README.md">EN</a> | <a href="Documents/README_ru_RU.md">RU</a> | <a href="Documents/README_ko_KR.md">KO</a> | <a href="Documents/README_es_ES.md">ES</a> | <a href="Documents/README_ca_ES.md">CA</a> | <a href="Documents/README_pl_PL.md">PL</a> | <a href="Documents/README_pt_BR.md">PT-BR</a> | <a href="Documents/README_uk_UA.md">UK</a> | <a href="Documents/README_zh_ZH.md">ZH</a> | <a href="Documents/README_ja_JP.md">JA</a></p>
 
-### [Polski](Documents/README_pl_PL.md) 
+## Features
 
-### [Português Brasileiro](Documents/README_pt_BR.md) 
+- Translates in-game Japanese text (MSQ, cutscenes, quests, NPC lines, and chat).
+- Supports selectable source and destination languages.
+- Lets you switch translation engines and methods.
+- Can target specific chat channels for translation.
+- Includes automatic updates.
 
-### [Опис на українській](Documents/README_uk_UA.md) 
+## Requirements
 
-### [中文](Documents/README_zh_ZH.md) 
+- Windows 10 x64 or newer.
+- Final Fantasy XIV running with DirectX 11 (x64 client).
+- Administrator rights, which the application asks for on start: it reads the
+  game's text out of the game's own memory.
 
-### [日本語](Documents/README_ja_JP.md) 
+No .NET runtime to install — the release carries its own.
 
-* * *
+## Quick Install
 
-![TataruHead](Documents/Tataru_img.png) ![LiveAction](Documents/LiveAction.gif)  
-![LiveTranslation](Documents/2020-08-18_21-12-52.gif)
+1. Download the latest installer from [Releases](https://github.com/xDarkOne/TataruHelper/releases/latest).
+2. Run `Setup.exe`. If SmartScreen appears, select **More info** and then **Run anyway**.
+3. Let Tataru Helper launch and complete the initial language/setup flow.
+4. Close settings and place the floating overlay where you want it.
+5. In FFXIV chat settings, enable the required message types shown below.
 
-### [Demonstration](https://youtu.be/7HiQXzmkQuw)
+![In-game chat settings](Documents/InGameSettings.png)
 
-### [Donations](https://github.com/NightlyRevenger/TataruHelper/blob/master/README.md#support)
+## Usage
 
-* * *
+- Full usage walkthrough: [Guide](Documents/Guide.MD).
+- After install, launch from the desktop/start-menu shortcut (not from `Setup.exe` again).
 
-## Table of Contents
+## Demo
 
-* [English](#english) 
-   * [Installation](#installation)
-   * [How to use](#how-to-use)
-   * [Development/Translation](#developmenttranslation)
-   * [License](#license)
-   * [Credits](#credits)
-   * [Contacts](#contacts)
-   * [Support](#support)
+- Video demo: [YouTube demonstration](https://youtu.be/7HiQXzmkQuw)
+- Live preview gifs:
 
-* * *
+![Settings tour](Documents/SettingsTour.gif)
+![Live Translation](Documents/2020-08-18_21-12-52.gif)
 
-#### English
+## Contributing / Translation
 
-Powered by Tataru's Team
-
-Tataru Helper - application for translation of in-game texts in Japanese developed MMORPG - Final Fantasy XIV. The texts are understood as MSQ, cutscenes, quests, NPC replicas, etc.
-
-- You can choose the source and destination language.
-- You can freely change the translator engine and use various translation methods. 
-- You can select a specific chat for translation. 
-- Automatic updates.
-- Tataru Taru!
-
-## Installation
-
-Tataru Helper requires:  
-Windows 7 **x64** or later (**x64 systems only**).  
-[Microsoft .NET Framework 4.6.2 ](https://www.microsoft.com/net/download/dotnet-framework-runtime)or above.  
-Final Fantasy XIV with **DirectX 11** and **x64**.
-
-1. Download the latest version of the application from [here](https://github.com/NightlyRevenger/TataruHelper/releases/latest) (Setup.exe).
-2. Run the Setup.exe file, after receiving message that Windows protected your PC, press more info and run anyway. The shortcut will be placed on the desktop.
-3. Tataru Helper will start automatically, configure source and destination language and do the initial setup.
-4. Close the settings window and drag the floating window to the right place.
-5. Make sure that the following messages are selected in the game's chat settings menu: ![InGameSettings](Documents/InGameSettings.png) 
-6. Everything's ready!  
-   P.S. After that, there is no need to run the application through Setup.exe. This is the installer! The shortcut to launch the application is on the desktop or in the start menu.
-
-## How to use
-
-- In depth guide [here](Documents/Guide.MD).
-
-## Development/Translation
-
-Want to contribute? Great!
-
-If you want to translate the application into your language, proceed [here](https://crowdin.com/project/tataru-helper).
-
-## License
-
-[MIT](/LICENSE)
+- Code contributions are welcome via pull requests.
+- Help translate the app on [Crowdin](https://crowdin.com/project/tataru-helper).
 
 ## Credits
 
-A lot of thanks to many who contribute to open-source projects. The following were instrumental to building this app:  
-[WPF Toolkit™](https://github.com/xceedsoftware/wpftoolkit)  
-[BondTech.HotKeyManagement](https://github.com/bondtech/HotKey-Manager-for-WinForm-and-WPF-Apps)  
-[NotifyIcon WPF](https://bitbucket.org/hardcodet/notifyicon-wpf/)  
-[Sharlayan](https://github.com/FFXIVAPP/sharlayan)  
-[Tataru Art by Nezusagi](https://www.deviantart.com/nezusagi)  
-[Squirrel.Windows](https://github.com/Squirrel/Squirrel.Windows)
+Thanks to all contributors and the projects that helped make Tataru Helper possible:
+
+- [TataruHelper by NightlyRevenger](https://github.com/NightlyRevenger/TataruHelper) — the original, which this is a fork of
+- [TataruHelper by progneo](https://github.com/progneo/TataruHelper) — the fork this one carries on from
+- [Sharlayan](https://github.com/FFXIVAPP/sharlayan) — reads the game's text out of its memory
+- [XIV Rus Translation](https://github.com/xivrus/xiv_ru_weblate) — the hand-made Russian translation this shows instead of a machine's
+- [WPF Toolkit](https://github.com/xceedsoftware/wpftoolkit)
+- [NHotKey.Wpf](https://github.com/thomaslevesque/NHotkey)
+- [NotifyIcon WPF](https://bitbucket.org/hardcodet/notifyicon-wpf/)
+- [Velopack](https://github.com/velopack/velopack) — the installer and updater
+- [Tataru Art by Nezusagi](https://www.deviantart.com/nezusagi)
+
+### Doing the same thing another way
+
+If you play with [Dalamud](https://github.com/goatcorp/Dalamud), it is worth knowing about
+[Echoglossian](https://github.com/lokinmodar/Echoglossian) — a plugin that translates dialogue
+inside the game rather than in an overlay beside it.
 
 ## Contacts
 
-Here is our discord server: [click](https://discord.gg/bSrpbd9)
+- Discord: [discord.gg/bSrpbd9](https://discord.gg/bSrpbd9)
 
-If you have any questions you can contact with me in:  
-xDarkOne:  
-Discord: xDarkOne#6486  
-Telegram: [click](https://t.me/xDarkOne)  
-VK: [click](https://vk.com/velikov_ra)  
-Twitch: [xDark0ne](https://www.twitch.tv/xdark0ne)  
-NightlyRevenger(developer):  
-<nightlyrevenger@yandex.ru>
+## License
 
-## Support
-
-If you want to support this project, use the links below:  
-MasterCard(Sberbank): 5469 3800 2554 9048  
-Yandex.Money: [4100172621059](https://money.yandex.ru/to/4100172621059)  
-PayPal: [paypal.me/xdarkone](https://www.paypal.me/xdarkone)  
-Patreon: [TataruHelper](https://www.patreon.com/TataruHelper)
-
-* * *
+[MIT](LICENSE)

@@ -1,17 +1,17 @@
-﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
-
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
-
-using Translation.Baidu;
-using Translation.Deepl;
-using Translation.Papago;
-using Translation.Google;
-using Translation.Yandex;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Translation.Credentials;
+using Translation.Exceptions;
+using Translation.Http;
+using Translation.Reference;
+using Translation.Models;
+using Translation.Providers;
+using Translation.Settings;
 using Translation.Utils;
 
 namespace Translation
@@ -20,282 +20,683 @@ namespace Translation
     {
         public ReadOnlyCollection<TranslationEngine> TranslationEngines
         {
-            get { return _TranslationEngines; }
+            get { return _translationEngines; }
         }
 
-        private ReadOnlyCollection<TranslationEngine> _TranslationEngines;
+        private ReadOnlyCollection<TranslationEngine> _translationEngines;
 
-        GoogleTranslator _GoogleTranslator;
+        private readonly List<KeyValuePair<TranslationRequest, string>> _translationCache;
+        private readonly object _cacheSync = new object();
 
-        YandexTranslator _YandexTranslator;
+        private readonly KeyValuePair<TranslationRequest, string> defaultCachedResult =
+            default(KeyValuePair<TranslationRequest, string>);
 
-        BaiduTranslater _BaiduTranslator;
+        private readonly IReadOnlyDictionary<TranslationEngineName, ITranslationProvider> _TranslationProviders;
 
-        DeepLTranslator _DeepLTranslator;
+        private readonly LanguageDetector _LanguageDetector;
+        private readonly Func<string, string> _detectLanguage;
 
-        PapagoTranslator _PapagoTranslator;
+        private readonly ILogger _Logger;
+        private readonly TranslationSettings _settings;
 
-        List<KeyValuePair<TranslationRequest, string>> transaltionCache;
-        KeyValuePair<TranslationRequest, string> defaultCachedResult = default(KeyValuePair<TranslationRequest, string>);
+        private readonly string _translationSettingsPath = "TranslationSysSettings.json";
 
-        LanguageDetector _LanguageDetector;
-
-        ILog _Logger;
-
-        string _TransaltionSettingsPath = "TranslationSysSettings.json";
-
-        public WebTranslator(ILog logger)
+        public WebTranslator(ILogger logger)
+            : this(logger, null, null, null, null)
         {
+        }
 
+        public WebTranslator(ILogger logger, ITranslationCredentialStore credentials)
+            : this(logger, null, null, null, credentials)
+        {
+        }
+
+        public WebTranslator(ILogger logger, IEnumerable<ITranslationProvider> translationProviders)
+            : this(logger, translationProviders, null, null, null)
+        {
+        }
+
+        internal WebTranslator(
+            ILogger logger,
+            IEnumerable<ITranslationProvider> translationProviders,
+            TranslationSettings settings,
+            Func<string, string> detectLanguage = null,
+            ITranslationCredentialStore credentials = null,
+            IReferenceTranslationSource referenceTranslations = null)
+        {
             _Logger = logger;
 
-            if (!Helper.LoadStaticFromJson(typeof(GlobalTranslationSettings), _TransaltionSettingsPath))
+            if (settings == null)
             {
-                Helper.SaveStaticToJson(typeof(GlobalTranslationSettings), _TransaltionSettingsPath);
-                Helper.LoadStaticFromJson(typeof(GlobalTranslationSettings), _TransaltionSettingsPath);
+                settings = TranslationSettingsStorage.Load(_translationSettingsPath, _Logger);
+                if (settings == null)
+                {
+                    settings = new TranslationSettings();
+                    TranslationSettingsStorage.Save(settings, _translationSettingsPath, _Logger);
+                }
             }
 
-            transaltionCache = new List<KeyValuePair<TranslationRequest, string>>(GlobalTranslationSettings.TranslationCacheSize);
+            _settings = settings;
+            ApiHttpClient.Configure(_settings.HttpRequestTimeoutMilliseconds,
+                _settings.HttpReadWriteTimeoutMilliseconds);
 
-            _GoogleTranslator = new GoogleTranslator(_Logger);
+            _translationCache =
+                new List<KeyValuePair<TranslationRequest, string>>(_settings.TranslationCacheSize);
 
-            _YandexTranslator = new YandexTranslator(_Logger);
+            _TranslationProviders = translationProviders != null
+                ? translationProviders.ToDictionary(x => x.EngineName, x => x)
+                : TranslationProviderFactory.CreateDefaultProviders(_Logger,
+                    credentials ?? NullCredentialStore.Instance, _settings);
 
-            _DeepLTranslator = new DeepLTranslator(_Logger);
+            _LanguageDetector = new LanguageDetector(_settings.MaxSameLanguagePercent,
+                _settings.NTextCatLanguageModelsPath, _Logger);
+            _detectLanguage = detectLanguage ?? _LanguageDetector.TryDetectLanguage;
 
-            _PapagoTranslator = new PapagoTranslator(_Logger);
+            if (referenceTranslations != null)
+            {
+                _referenceTranslations = referenceTranslations;
+            }
+            else
+            {
+                // Kept so the index can be rebuilt into the same file it is read
+                // from. A supplied source has no file behind it, and then there
+                // is nothing to update.
+                _referenceIndexPath = SqliteReferenceTranslationSource.Resolve(_settings.ReferenceTranslationsPath);
+                _referenceTranslations = new SqliteReferenceTranslationSource(ChooseReferenceIndex(), _Logger);
+            }
+        }
 
-            _BaiduTranslator = new BaiduTranslater(_Logger);
+        private IReferenceTranslationSource _referenceTranslations;
 
-            _LanguageDetector = new LanguageDetector(GlobalTranslationSettings.MaxSameLanguagePercent,
-                GlobalTranslationSettings.NTextCatLanguageModelsPath, _Logger);
+        private readonly string _referenceIndexPath = string.Empty;
+
+        /// <summary>
+        /// Where an update writes the index. Not always the file being read:
+        /// the application ships one too, and that one is left alone.
+        /// </summary>
+        public string ReferenceIndexPath => _referenceIndexPath;
+
+        private string ChooseReferenceIndex()
+        {
+            return ReferenceIndexLocation.Choose(
+                _settings.ReferenceTranslationsPath,
+                _settings.ShippedReferenceTranslationsPath,
+                _Logger);
+        }
+
+        /// <summary>The language the index was built in, empty when no index is loaded.</summary>
+        public string ReferenceIndexLanguage => _referenceTranslations?.LanguageCode ?? string.Empty;
+
+        /// <summary>The language the index is keyed on: the one the game is played in.</summary>
+        public string ReferenceIndexSourceLanguage => _referenceTranslations?.SourceLanguageCode ?? string.Empty;
+
+        /// <summary>The commit of the translation project the index was built from.</summary>
+        public string ReferenceIndexRevision => _referenceTranslations?.Revision ?? string.Empty;
+
+        /// <summary>
+        /// The language a rebuilt index should be built in: the one the current
+        /// index is in, since rebuilding it in another would quietly replace the
+        /// translation the user has been reading.
+        /// </summary>
+        public string ReferenceIndexTargetLanguage
+        {
+            get
+            {
+                var current = ReferenceIndexLanguage;
+                return current.Length > 0 ? current : _settings.ReferenceTranslationsLanguage;
+            }
+        }
+
+        /// <summary>
+        /// The language a rebuilt index should be keyed on, when nobody says
+        /// otherwise: the one the current index uses.
+        /// </summary>
+        public string ReferenceIndexGameLanguage
+        {
+            get
+            {
+                return ReferenceIndexUpdater.ResolveGameLanguage(
+                    GameLanguage,
+                    ReferenceIndexSourceLanguage.Length > 0
+                        ? ReferenceIndexSourceLanguage
+                        : _settings.ReferenceTranslationsGameLanguage);
+            }
+        }
+
+        /// <summary>How many lines the index holds.</summary>
+        public int ReferenceIndexLines => _referenceTranslations?.LineCount ?? 0;
+
+        /// <summary>The parsing rules the index was built by.</summary>
+        public int ReferenceIndexRulesVersion => _referenceTranslations?.RulesVersion ?? 0;
+
+        /// <summary>
+        /// Lets go of the index file so a rebuilt one can be moved over it.
+        ///
+        /// A lookup already under way answers from the old source, which by then
+        /// says it knows nothing, and the line goes to an engine as it would
+        /// have before the index existed. That is the whole cost of a swap, and
+        /// it lasts as long as a rename.
+        /// </summary>
+        public void CloseReferenceIndex()
+        {
+            (_referenceTranslations as IDisposable)?.Dispose();
+        }
+
+        /// <summary>
+        /// Opens the index again, as this character: the name and gender were
+        /// read from the game once and nothing will announce them a second time.
+        /// </summary>
+        public void ReopenReferenceIndex()
+        {
+            if (_referenceIndexPath.Length == 0)
+            {
+                return;
+            }
+
+            var playerName = _referenceTranslations?.PlayerName ?? string.Empty;
+            var playerIsFeminine = _referenceTranslations?.PlayerIsFeminine;
+
+            var reopened = new SqliteReferenceTranslationSource(ChooseReferenceIndex(), _Logger)
+            {
+                PlayerName = playerName,
+                PlayerIsFeminine = playerIsFeminine
+            };
+
+            var previous = _referenceTranslations;
+            _referenceTranslations = reopened;
+            (previous as IDisposable)?.Dispose();
+        }
+
+        /// <summary>
+        /// Whether a line the game's translators have already rendered by hand
+        /// should be used in place of asking a service to render it again.
+        /// </summary>
+        public bool UseReferenceTranslations { get; set; }
+
+        /// <summary>
+        /// The language the game is being played in, as read from the game
+        /// itself. Empty until something has read it.
+        ///
+        /// This, and not the window's setting, is what the index has to agree
+        /// with: a window may be set to work the language out line by line, and
+        /// one line of German typed into chat says nothing about the language
+        /// the game is drawing its dialogue in.
+        /// </summary>
+        public string GameLanguage { get; set; } = string.Empty;
+
+        /// <summary>
+        /// The character's name, so lines the game addresses to them can be
+        /// recognised: what is stored has the name punched out.
+        /// </summary>
+        public string PlayerName
+        {
+            get => _referenceTranslations?.PlayerName ?? string.Empty;
+            set
+            {
+                if (_referenceTranslations != null)
+                {
+                    _referenceTranslations.PlayerName = value;
+                }
+            }
+        }
+
+        /// <summary>The character's gender, which the Russian agrees with.</summary>
+        public bool? PlayerIsFeminine
+        {
+            get => _referenceTranslations?.PlayerIsFeminine;
+            set
+            {
+                if (_referenceTranslations != null)
+                {
+                    _referenceTranslations.PlayerIsFeminine = value;
+                }
+            }
+        }
+
+        /// <summary>A character's name as the translators render it.</summary>
+        public bool TryGetReferenceSpeakerName(string speaker, TranslatorLanguage fromLang,
+            TranslatorLanguage toLang, out string translated)
+        {
+            translated = string.Empty;
+
+            // Taken once: the index is swapped out from under this when it is
+            // rebuilt, and asking twice could ask two different sources.
+            var reference = _referenceTranslations;
+
+            if (!UseReferenceTranslations || !Speaks(reference, fromLang, toLang))
+            {
+                return false;
+            }
+
+            return reference.TryGetSpeakerName(speaker, out translated);
         }
 
         public void LoadLanguages()
         {
             LoadLanguages(
-                GlobalTranslationSettings.GoogleTranslateLanguages,
-                GlobalTranslationSettings.DeeplLanguages,
-                GlobalTranslationSettings.YandexLanguages,
-                GlobalTranslationSettings.PapagoLanguages,
-                GlobalTranslationSettings.BaiduLanguages);
+                _settings.GoogleTranslateLanguages,
+                _settings.PapagoLanguages,
+                _settings.DeepLLanguages,
+                _settings.AzureTranslatorLanguages,
+                _settings.GoogleCloudTranslateLanguages,
+                _settings.DeepLApiLanguages,
+                _settings.OpenAILanguages,
+                _settings.DeepSeekLanguages,
+                _settings.YandexCloudLanguages,
+                _settings.YandexGptLanguages,
+                _settings.YandexLanguages,
+                _settings.GeminiLanguages);
         }
 
-        public async Task<string> TranslateAsync(string inSentence, TranslationEngine translationEngine, TranslatorLanguague fromLang, TranslatorLanguague toLang)
+        public Task<TranslationResult> TranslateAsync(string inSentence, TranslationEngine translationEngine,
+            TranslatorLanguage fromLang, TranslatorLanguage toLang)
         {
-            string result = String.Empty;
-
-            await Task.Run(() =>
-            {
-                result = Translate(inSentence, translationEngine, fromLang, toLang);
-            });
-
-            return result;
+            return TranslateAsync(inSentence, translationEngine, fromLang, toLang, CancellationToken.None);
         }
 
-        public string Translate(string inSentence, TranslationEngine translationEngine, TranslatorLanguague fromLang, TranslatorLanguague toLang)
+        public Task<TranslationResult> TranslateAsync(
+            string inSentence,
+            TranslationEngine translationEngine,
+            TranslatorLanguage fromLang,
+            TranslatorLanguage toLang,
+            CancellationToken cancellationToken)
         {
+            return TranslateCoreAsync(inSentence, translationEngine, fromLang, toLang, cancellationToken);
+        }
 
-            if (fromLang.SystemName == "Auto")
+        /// <summary>
+        /// Matched on the sentence as it came off the screen rather than after
+        /// preprocessing: the index holds the game's own text, which is what we
+        /// read, and preprocessing exists to help a machine translator rather
+        /// than to help find an exact line.
+        /// </summary>
+        /// <summary>
+        /// Whether the index answers this pair of languages.
+        ///
+        /// Both halves have to match. A line is read off the screen in the
+        /// language the game is played in, so an index keyed on another finds
+        /// nothing - and one built for another reading language would answer in
+        /// a language nobody asked for.
+        /// </summary>
+        private bool Speaks(IReferenceTranslationSource reference,
+            TranslatorLanguage fromLang, TranslatorLanguage toLang)
+        {
+            if (reference == null)
             {
-                if (translationEngine.EngineName != TranslationEngineName.GoogleTranslate)
-                {
-                    var dLang = _LanguageDetector.TryDetectLanguague(inSentence);
-                    if (dLang.Length > 1)
-                    {
-                        var nLang = translationEngine.SupportedLanguages.FirstOrDefault(x => x.SystemName == dLang);
-                        if (nLang != null)
-                            fromLang = nLang;
-                    }
-                }
+                return false;
             }
 
-            if (fromLang.SystemName == toLang.SystemName)
-                return inSentence;
+            var indexed = reference.LanguageCode;
+            if (string.IsNullOrEmpty(indexed) ||
+                !string.Equals(indexed, toLang?.LanguageCode, StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
 
-            if (inSentence.All(x => !char.IsLetter(x)))
-                return inSentence;
+            var keyedOn = reference.SourceLanguageCode;
+            if (string.IsNullOrEmpty(keyedOn))
+            {
+                return false;
+            }
+
+            // What the game itself says it is set to, and only failing that
+            // what the window was told.
+            //
+            // When neither knows, let the index try: the lookup is by the exact
+            // text, so a line in another language simply is not in there.
+            // Refusing here instead would take the translations away from
+            // everyone whose game could not be read, to guard against a match
+            // that cannot happen.
+            var declared = GameLanguage.Length > 0 ? GameLanguage : fromLang?.LanguageCode ?? string.Empty;
+            if (declared.Length == 0 || string.Equals(declared, "auto", StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            return string.Equals(keyedOn, declared, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private bool TryTranslateFromReference(string sentence, TranslatorLanguage fromLang,
+            TranslatorLanguage toLang, out string translation)
+        {
+            translation = string.Empty;
+
+            var reference = _referenceTranslations;
+
+            if (!UseReferenceTranslations || !Speaks(reference, fromLang, toLang))
+            {
+                return false;
+            }
+
+            return reference.TryGetTranslation(sentence, out translation);
+        }
+
+        private async Task<TranslationResult> TranslateCoreAsync(string inSentence,
+            TranslationEngine translationEngine, TranslatorLanguage fromLang, TranslatorLanguage toLang,
+            CancellationToken cancellationToken)
+        {
+            if (translationEngine == null || fromLang == null || toLang == null)
+            {
+                return TranslationResult.Failure(
+                    translationEngine?.EngineName ?? default,
+                    TranslationFailureKind.ProviderUnavailable,
+                    "Engine or language not specified.");
+            }
+
+            // What the window says the game is in, before any guessing. The
+            // index is keyed on the language of the client, which is a setting
+            // and not a property of the line: guessing it per line means a
+            // German sentence typed into chat decides that the next line of
+            // dialogue is German too.
+            var declaredFrom = fromLang;
+
+            fromLang = ResolveSourceLanguage(translationEngine, fromLang, inSentence);
+
+            if (fromLang.SystemName == toLang.SystemName)
+                return TranslationResult.Success(translationEngine.EngineName, inSentence);
+
+            if ((inSentence ?? string.Empty).All(x => !char.IsLetter(x)))
+                return TranslationResult.Success(translationEngine.EngineName, inSentence);
 
             switch (toLang.SystemName)
             {
                 case "Korean":
                     if (_LanguageDetector.HasKorean(inSentence))
-                        return inSentence;
+                        return TranslationResult.Success(translationEngine.EngineName, inSentence);
                     break;
                 case "Japanese":
                     if (_LanguageDetector.HasJapanese(inSentence))
-                        return inSentence;
+                        return TranslationResult.Success(translationEngine.EngineName, inSentence);
                     break;
             }
 
-            TranslationRequest translationRequest = new TranslationRequest(inSentence, translationEngine.EngineName, fromLang.LanguageCode, toLang.LanguageCode);
-            var cachedResult = transaltionCache.FirstOrDefault(x => x.Key == translationRequest);
-
-            if (!cachedResult.Equals(defaultCachedResult))
+            // Somebody has already translated most of the game's dialogue by
+            // hand. Asking a service to have another go at a line that is in
+            // there is slower, costs a request, and reads worse.
+            if (TryTranslateFromReference(inSentence, declaredFrom, toLang, out var referenceText))
             {
-                return cachedResult.Value;
+                return TranslationResult.Literary(translationEngine.EngineName, referenceText);
             }
 
-            string result = String.Empty;
-
-            inSentence = PreprocessSentence(inSentence);
-
+            var normalizedSentence = PreprocessSentence(inSentence);
             var fromLangCode = fromLang.LanguageCode;
             var toLangCode = toLang.LanguageCode;
 
-            switch (translationEngine.EngineName)
+            var translationRequest =
+                new TranslationRequest(normalizedSentence, translationEngine.EngineName, fromLangCode, toLangCode);
+            KeyValuePair<TranslationRequest, string> cachedResult;
+            lock (_cacheSync)
             {
-                case TranslationEngineName.GoogleTranslate:
-                    {
-                        result = GoogleTranslate(inSentence, fromLangCode, toLangCode);
-                        break;
-                    }
-
-                case TranslationEngineName.DeepL:
-                    {
-                        result = DeeplTranslate(inSentence, fromLangCode, toLangCode);
-                        break;
-                    }
-                case TranslationEngineName.Yandex:
-                    {
-                        result = YandexTranslate(inSentence, fromLangCode, toLangCode);
-                        break;
-                    }
-                case TranslationEngineName.Papago:
-                    {
-                        result = PapagoTranslate(inSentence, fromLangCode, toLangCode);
-                        break;
-                    }
-                case TranslationEngineName.Baidu:
-                    {
-                        result = BaiduTranslate(inSentence, fromLangCode, toLangCode);
-                        break;
-                    }
-                default:
-                    {
-                        result = String.Empty;
-                        break;
-                    }
+                cachedResult = _translationCache.FirstOrDefault(x => x.Key == translationRequest);
             }
 
-            if (result.Length > 1)
+            if (!cachedResult.Equals(defaultCachedResult))
             {
-                cachedResult = transaltionCache.FirstOrDefault(x => x.Key == translationRequest);
+                return TranslationResult.Success(translationEngine.EngineName, cachedResult.Value);
+            }
 
-                if (cachedResult.Equals(defaultCachedResult))
-                    transaltionCache.Add(new KeyValuePair<TranslationRequest, string>(translationRequest, result));
+            var result = await InvokeSelectedProviderAsync(translationEngine.EngineName, normalizedSentence,
+                fromLangCode, toLangCode, cancellationToken).ConfigureAwait(false);
 
-                if (transaltionCache.Count > GlobalTranslationSettings.TranslationCacheSize - 10)
-                    transaltionCache.RemoveRange(0, GlobalTranslationSettings.TranslationCacheSize / 2);
+            if (!result.IsSuccess)
+            {
+                result = await TryFallbackProvidersAsync(translationEngine, normalizedSentence, toLang,
+                    fromLangCode, toLangCode, result, cancellationToken).ConfigureAwait(false);
+            }
 
+            if (result.IsSuccess && !string.IsNullOrEmpty(result.Text))
+            {
+                lock (_cacheSync)
+                {
+                    cachedResult = _translationCache.FirstOrDefault(x => x.Key == translationRequest);
+                    if (cachedResult.Equals(defaultCachedResult))
+                    {
+                        _translationCache.Add(
+                            new KeyValuePair<TranslationRequest, string>(translationRequest, result.Text));
+                    }
+
+                    if (_translationCache.Count > _settings.TranslationCacheSize - 10)
+                        _translationCache.RemoveRange(0, _settings.TranslationCacheSize / 2);
+                }
             }
 
             return result;
         }
 
-        private void LoadLanguages(string glTrPath, string deepPath, string YaTrPath, string PapagoTrPath, string baiduTrPath)
+        /// <summary>
+        /// Falls back to the other engines when the selected one fails.
+        ///
+        /// Without this a dead engine simply reported "Translation failed" for the
+        /// rest of the session, and the only way out was to pick another engine by
+        /// hand mid-conversation.
+        ///
+        /// Engines are tried best-quality first, and only those that offer the
+        /// target language. A missing API key is skipped silently rather than
+        /// counted as a failure - it means the user never set that engine up.
+        /// </summary>
+        private async Task<TranslationResult> TryFallbackProvidersAsync(
+            TranslationEngine selectedEngine,
+            string sentence,
+            TranslatorLanguage toLang,
+            string fromLangCode,
+            string toLangCode,
+            TranslationResult originalFailure,
+            CancellationToken cancellationToken)
+        {
+            var engines = _translationEngines;
+            if (engines == null || engines.Count == 0)
+            {
+                return originalFailure;
+            }
+
+            foreach (var candidate in engines.OrderByDescending(x => x.Quality))
+            {
+                if (candidate.EngineName == selectedEngine.EngineName)
+                {
+                    continue;
+                }
+
+                // Every engine ships its own language list with its own spelling of
+                // the codes - DeepL says "RU", Yandex wants "ru" and rejects the
+                // request outright otherwise - so the codes have to be re-resolved
+                // against the engine actually being called.
+                var candidateToCode = ResolveLanguageCode(candidate, toLang, toLangCode);
+                if (candidateToCode == null)
+                {
+                    continue;
+                }
+
+                var candidateFromCode = string.Equals(fromLangCode, "auto", StringComparison.OrdinalIgnoreCase)
+                    ? fromLangCode
+                    : ResolveLanguageCode(candidate, null, fromLangCode) ?? "auto";
+
+                var result = await InvokeSelectedProviderAsync(candidate.EngineName, sentence, candidateFromCode,
+                    candidateToCode, cancellationToken).ConfigureAwait(false);
+
+                if (result.IsSuccess && !string.IsNullOrEmpty(result.Text))
+                {
+                    _Logger?.LogInformation("{Message}",
+                        "[FALLBACK] " + selectedEngine.EngineName + " -> " + candidate.EngineName);
+                    return result;
+                }
+
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    break;
+                }
+            }
+
+            return originalFailure;
+        }
+
+        /// <summary>
+        /// Finds how <paramref name="engine"/> spells a language, matching first on
+        /// the language's own name and then on the code. Returns null when the
+        /// engine does not offer it at all.
+        /// </summary>
+        internal static string ResolveLanguageCode(TranslationEngine engine, TranslatorLanguage language,
+            string languageCode)
+        {
+            if (engine?.SupportedLanguages == null)
+            {
+                return null;
+            }
+
+            if (language != null && !string.IsNullOrEmpty(language.SystemName))
+            {
+                var byName = engine.SupportedLanguages.FirstOrDefault(x =>
+                    string.Equals((x.SystemName ?? string.Empty).Trim(), language.SystemName.Trim(),
+                        StringComparison.OrdinalIgnoreCase));
+
+                if (byName != null)
+                {
+                    return byName.LanguageCode;
+                }
+            }
+
+            var wanted = language?.LanguageCode ?? languageCode;
+            if (string.IsNullOrEmpty(wanted))
+            {
+                return null;
+            }
+
+            var byCode = engine.SupportedLanguages.FirstOrDefault(x =>
+                string.Equals(x.LanguageCode, wanted, StringComparison.OrdinalIgnoreCase));
+
+            return byCode?.LanguageCode;
+        }
+
+        private async Task<TranslationResult> InvokeSelectedProviderAsync(
+            TranslationEngineName engineName,
+            string sentence,
+            string fromLangCode,
+            string toLangCode,
+            CancellationToken cancellationToken)
+        {
+            if (!_TranslationProviders.TryGetValue(engineName, out var provider))
+            {
+                return TranslationResult.Failure(engineName, TranslationFailureKind.ProviderUnavailable,
+                    "No provider registered for " + engineName);
+            }
+
+            try
+            {
+                var text = await provider.TranslateAsync(sentence, fromLangCode, toLangCode, cancellationToken)
+                    .ConfigureAwait(false) ?? string.Empty;
+
+                if (string.IsNullOrWhiteSpace(text))
+                {
+                    return TranslationResult.Failure(engineName, TranslationFailureKind.EmptyResponse,
+                        "Provider returned no translation.");
+                }
+
+                return TranslationResult.Success(engineName, text);
+            }
+            catch (QuotaExceededException quotaEx)
+            {
+                _Logger?.LogInformation("{Message}", "[PROVIDER_" + engineName + "_QUOTA] " + quotaEx.Message);
+                return TranslationResult.Failure(engineName, TranslationFailureKind.QuotaExceeded, quotaEx.Message);
+            }
+            catch (MissingApiKeyException keyEx)
+            {
+                _Logger?.LogInformation("{Message}", "[PROVIDER_" + engineName + "_NO_KEY] " + keyEx.Message);
+                return TranslationResult.Failure(engineName, TranslationFailureKind.MissingCredentials, keyEx.Message);
+            }
+            catch (Exception ex)
+            {
+                _Logger?.LogInformation("{Message}", "[PROVIDER_" + engineName + "_EXCEPTION] " + ex);
+                return TranslationResult.Failure(engineName, TranslationFailureKind.ProviderException, ex.Message);
+            }
+        }
+
+        private TranslatorLanguage ResolveSourceLanguage(
+            TranslationEngine translationEngine,
+            TranslatorLanguage fromLang,
+            string sentence)
+        {
+            if (fromLang == null || fromLang.SystemName != "Auto")
+                return fromLang;
+
+            var detectedSystemLanguage = _detectLanguage(sentence ?? string.Empty);
+            if (string.IsNullOrWhiteSpace(detectedSystemLanguage))
+                return fromLang;
+
+            var detectedLanguage = translationEngine.SupportedLanguages
+                .FirstOrDefault(x => x.SystemName == detectedSystemLanguage);
+
+            return detectedLanguage ?? fromLang;
+        }
+
+        private void LoadLanguages(
+            string glTrPath,
+            string PapagoTrPath,
+            string deepLPath,
+            string azurePath,
+            string gCloudPath,
+            string deepLApiPath,
+            string openAiPath,
+            string deepSeekPath,
+            string yandexCloudPath,
+            string yandexGptPath,
+            string yandexFreePath,
+            string geminiPath)
         {
             try
             {
                 List<TranslationEngine> tmptranslationEngines = new List<TranslationEngine>();
-                var tmpList = Helper.LoadJsonData<List<TranslatorLanguague>>(glTrPath, _Logger);
+                var tmpList = JsonDataLoader.LoadJsonData<List<TranslatorLanguage>>(glTrPath, _Logger);
                 tmptranslationEngines.Add(new TranslationEngine(TranslationEngineName.GoogleTranslate, tmpList, 9));
 
-                tmpList = Helper.LoadJsonData<List<TranslatorLanguague>>(deepPath, _Logger);
-                tmptranslationEngines.Add(new TranslationEngine(TranslationEngineName.DeepL, tmpList, 10));
-
-                /*
-                tmpList = Helper.LoadJsonData<List<TranslatorLanguague>>(YaTrPath, _Logger);
-                tmptranslationEngines.Add(new TranslationEngine(TranslationEngineName.Yandex, tmpList, 8));//*/
-
-                tmpList = Helper.LoadJsonData<List<TranslatorLanguague>>(PapagoTrPath, _Logger);
+                tmpList = JsonDataLoader.LoadJsonData<List<TranslatorLanguage>>(PapagoTrPath, _Logger);
                 tmptranslationEngines.Add(new TranslationEngine(TranslationEngineName.Papago, tmpList, 6));
 
-                tmpList = Helper.LoadJsonData<List<TranslatorLanguague>>(baiduTrPath, _Logger);
-                tmptranslationEngines.Add(new TranslationEngine(TranslationEngineName.Baidu, tmpList, 3));
+                tmpList = JsonDataLoader.LoadJsonData<List<TranslatorLanguage>>(deepLPath, _Logger);
+                tmptranslationEngines.Add(new TranslationEngine(TranslationEngineName.DeepL, tmpList, 10));
+
+                tmpList = JsonDataLoader.LoadJsonData<List<TranslatorLanguage>>(azurePath, _Logger);
+                tmptranslationEngines.Add(new TranslationEngine(TranslationEngineName.AzureTranslator, tmpList, 9));
+
+                tmpList = JsonDataLoader.LoadJsonData<List<TranslatorLanguage>>(gCloudPath, _Logger);
+                tmptranslationEngines.Add(new TranslationEngine(TranslationEngineName.GoogleCloudTranslate, tmpList,
+                    9));
+
+                tmpList = JsonDataLoader.LoadJsonData<List<TranslatorLanguage>>(deepLApiPath, _Logger);
+                tmptranslationEngines.Add(new TranslationEngine(TranslationEngineName.DeepLApi, tmpList, 10));
+
+                tmpList = JsonDataLoader.LoadJsonData<List<TranslatorLanguage>>(openAiPath, _Logger);
+                tmptranslationEngines.Add(new TranslationEngine(TranslationEngineName.OpenAI, tmpList, 8));
+
+                tmpList = JsonDataLoader.LoadJsonData<List<TranslatorLanguage>>(deepSeekPath, _Logger);
+                tmptranslationEngines.Add(new TranslationEngine(TranslationEngineName.DeepSeek, tmpList, 7));
+
+                tmpList = JsonDataLoader.LoadJsonData<List<TranslatorLanguage>>(yandexCloudPath, _Logger);
+                tmptranslationEngines.Add(new TranslationEngine(TranslationEngineName.Yandex, tmpList, 8));
+
+                tmpList = JsonDataLoader.LoadJsonData<List<TranslatorLanguage>>(yandexGptPath, _Logger);
+                tmptranslationEngines.Add(new TranslationEngine(TranslationEngineName.YandexGPT, tmpList, 8));
+
+                tmpList = JsonDataLoader.LoadJsonData<List<TranslatorLanguage>>(geminiPath, _Logger);
+                tmptranslationEngines.Add(new TranslationEngine(TranslationEngineName.Gemini, tmpList, 8));
+
+                tmpList = JsonDataLoader.LoadJsonData<List<TranslatorLanguage>>(yandexFreePath, _Logger);
+                // Ranked above Google: on game dialogue it reads more naturally and
+                // answers in about a fifth of the time (250ms against 1250ms).
+                tmptranslationEngines.Add(new TranslationEngine(TranslationEngineName.YandexFree, tmpList, 9.5));
 
                 tmptranslationEngines = tmptranslationEngines.OrderByDescending(x => x.Quality).ToList();
 
 
-                _TranslationEngines = new ReadOnlyCollection<TranslationEngine>(tmptranslationEngines);
+                _translationEngines = new ReadOnlyCollection<TranslationEngine>(tmptranslationEngines);
             }
             catch (Exception e)
             {
-                _Logger.WriteLog(Convert.ToString(e));
+                _Logger.LogInformation("{Message}", Convert.ToString(e));
             }
-        }
-
-        private string GoogleTranslate(string sentence, string inLang, string outLang)
-        {
-            string result = String.Empty;
-
-            try
-            {
-                result = _GoogleTranslator.Translate(sentence, inLang, outLang);
-            }
-            catch (Exception e)
-            {
-                _Logger.WriteLog(Convert.ToString(e));
-            }
-
-            return result;
-        }
-
-        private string DeeplTranslate(string sentence, string inLang, string outLang)
-        {
-            return _DeepLTranslator.Translate(sentence, inLang, outLang);
-        }
-
-        private string YandexTranslate(string sentence, string inLang, string outLang)
-        {
-            string result = String.Empty;
-            try
-            {
-                result = _YandexTranslator.Translate(sentence, inLang, outLang);
-            }
-            catch (Exception e)
-            {
-                _Logger.WriteLog(Convert.ToString(e));
-            }
-
-            return result;
-        }
-
-        private string PapagoTranslate(string sentence, string inLang, string outLang)
-        {
-            string result = string.Empty;
-
-            try
-            {
-                result = _PapagoTranslator.Translate(sentence, inLang, outLang);
-            }
-            catch (Exception e)
-            {
-                _Logger.WriteLog(e.ToString());
-            }
-
-            return result;
-        }
-
-        private string BaiduTranslate(string sentence, string inLang, string outLang)
-        {
-            string result = string.Empty;
-
-            try
-            {
-                result = _BaiduTranslator.Translate(sentence, inLang, outLang);
-            }
-            catch (Exception e)
-            {
-                _Logger.WriteLog(e.ToString());
-            }
-
-            return result;
         }
 
         private string PreprocessSentence(string sentence)
         {
-            return sentence.Replace("&", " and ");
+            return sentence ?? string.Empty;
         }
     }
 }

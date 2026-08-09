@@ -1,0 +1,826 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: tataru-helper\n"
+"POT-Creation-Date: 2026-05-21 10:37+0800\n"
+"PO-Revision-Date: 2026-08-04 20:00\n"
+"Last-Translator: \n"
+"Language-Team: Portuguese, Brazilian\n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.9\n"
+"X-Poedit-Basepath: ../../..\n"
+"X-Poedit-KeywordsList: GetString;GetPluralString:1,2;GetParticularString:1c,2;GetParticularPluralString:1c,2,3;_;_n:1,2;_p:1c,2;_pn:1c,2,3\\n"
+"X-Poedit-SearchPath-0: .;catalog.GetString\n"
+"X-Crowdin-Project: tataru-helper\n"
+"X-Crowdin-Project-ID: 367037\n"
+"X-Crowdin-Language: pt-BR\n"
+"X-Crowdin-File: en_US.po\n"
+"X-Crowdin-File-ID: 6\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:133
+msgid "Settings"
+msgstr "Configurações"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:134
+msgid "Tataru Helper"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:135
+msgid "Chat Window"
+msgstr "Janela de Chat"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:136
+msgid "Stream Chat Window"
+msgstr "Mostrar janela de Bate-Papo"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:138
+msgid "Language"
+msgstr "Idioma"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:142
+msgid "Help"
+msgstr "Ajuda"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:143
+msgid "About"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:144
+msgid "Chat Windows"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:146
+msgid "Chat Appearance"
+msgstr "Aparência do Chat"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:147
+msgid "Translation Settings"
+msgstr "Configurações de tradução"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:148
+#: TataruHelper/Utils/LanguagueWrapper.cs:151
+msgid "General"
+msgstr "Geral"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:149
+msgid "Translation"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:150
+msgid "Appearance"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:152
+msgid "Active Chat Window"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:153
+msgid "Add"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:154
+msgid "Delete"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:155
+msgid "Show/Hide"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:156
+msgid "Reset"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:157
+msgid "Window list"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:158
+msgid "Window details"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:159
+msgid "Window name"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:160
+msgid "Chat code filters"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:161
+msgid "Engine routing"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:162
+msgid "Typography"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:163
+msgid "Window surface"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:164
+msgid "Shortcut capture"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:165
+msgid "Overlay behavior"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:166
+msgid "Application flags"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:168
+msgid "Original repository:"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:169
+msgid "Community Discord:"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:171
+msgid "Behavior"
+msgstr "Conduta"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:172
+msgid "Hotkeys"
+msgstr "Teclas de Atalho"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:174
+msgid "Font Settings"
+msgstr "Configurações de fonte"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:175
+msgid "Font Size"
+msgstr "Tamanho da Fonte"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:177
+msgid "Font Color"
+msgstr "Cor da Fonte"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:178
+msgid "Color 1"
+msgstr "Cor 1"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:179
+msgid "Color 2"
+msgstr "Cor 2"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:181
+msgid "Font"
+msgstr "Fonte"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:183
+msgid "Background Color"
+msgstr "Cor de Fundo"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:185
+msgid "Standard"
+msgstr "Padrão"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:186
+msgid "Advanced"
+msgstr "Avançado"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:187
+msgid "Available Colors"
+msgstr "Cores disponíveis"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:188
+msgid "Standard Colors"
+msgstr "Cores Padrão"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:189
+msgid "Recent Colors"
+msgstr "Cores Recentes"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:191
+msgid "Paragraph Settings"
+msgstr "Configuração do parágrafo"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:192
+msgid "Spacing"
+msgstr "Espaçamento"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:193
+msgid "Line Break Height"
+msgstr "Altura da Quebra de Linha"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:194
+msgid "Corner radius"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:195
+msgid "Content padding"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:196
+msgid "Messages in container"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:197
+msgid "Message container padding"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:198
+msgid "Message container alpha"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:200
+msgid "Message border thickness"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:201
+msgid "Message border alpha"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:202
+msgid "Show only last message"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:204
+msgid "Chat Codes"
+msgstr "Nomes do chat"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:206
+msgid "Translation Engine"
+msgstr "Mecanismo de tradução"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:207
+msgid "FF Language"
+msgstr "Idioma do FF"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:208
+msgid "Translate to"
+msgstr "Traduzir para"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:210
+msgid "Show/hide Chat Window"
+msgstr "Mostrar/ocultar janela do Bate-Papo"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:212
+msgid "Hotkey to hide a Chat Box when it is not needed and call it up when it is needed. You should use Ctrl/Shift/Alt + Any key or combination of Ctrl+Shift+Alt + Any key, etc. The key combinations must not be repeated. If you cannot assign a key, it is occupied by the application or system. Example: CTRL+Q, CTRL+ALT+R, SHIFT+ALT+CTRL+T, ALT+SHIFT+Y, SHIFT+CTRL+G, etc."
+msgstr "Tecla de Atalho para esconder uma caixa de Bate Papo quando não é necessário e chamá-la quando necessário. Você deve usar Ctrl/Shift/Alt + Qualquer tecla ou combinação de Ctrl+Shift+Alt + Qualquer tecla, etc. As combinações tecla não devem ser repetidas. Se você não pode atribuir uma tecla, ela é ocupada pelo aplicativo ou sistema. Exemplo: CTRL+Q, CTRL+ALT+R, SHIFT+CTRL+T+SHIFL+T, ALT+SHIFT+Y, SHIFT+CTRL+G, etc."
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:214
+#: TataruHelper/Utils/LanguagueWrapper.cs:223
+msgid "Click Through"
+msgstr "Permitir Clicar"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:216
+msgid "Hotkey to turn on/off clicks through the windows. You should use Ctrl/Shift/Alt + Any key or combination of Ctrl+Shift+Alt + Any key, etc. The key combinations must not be repeated. If you cannot assign a key, it is occupied by the application or system. Example: CTRL+Q, CTRL+ALT+R, SHIFT+ALT+CTRL+T, ALT+SHIFT+Y, SHIFT+CTRL+G, etc."
+msgstr "Tecla de Atalho para esconder uma caixa de Bate Papo quando não é necessário e chamá-la quando necessário. Você deve usar Ctrl/Shift/Alt + Qualquer tecla ou combinação de Ctrl+Shift+Alt + Qualquer tecla, etc. As combinações tecla não devem ser repetidas. Se você não pode atribuir uma tecla, ela é ocupada pelo aplicativo ou sistema. Exemplo: CTRL+Q, CTRL+ALT+R, SHIFT+CTRL+T+SHIFL+T, ALT+SHIFT+Y, SHIFT+CTRL+G, etc."
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:218
+msgid "Clear Chat"
+msgstr "Limpar conversa"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:220
+msgid "Hotkey to clear any text in the chatbox. You should use Ctrl/Shift/Alt + Any key or combination of Ctrl+Shift+Alt + Any key, etc. The key combinations must not be repeated. If you cannot assign a key, it is occupied by the application or system. Example: CTRL+Q, CTRL+ALT+R, SHIFT+ALT+CTRL+T, ALT+SHIFT+Y, SHIFT+CTRL+G, etc."
+msgstr "Tecla de Atalho para esconder uma caixa de Bate Papo quando não é necessário e chamá-la quando necessário. Você deve usar Ctrl/Shift/Alt + Qualquer tecla ou combinação de Ctrl+Shift+Alt + Qualquer tecla, etc. As combinações tecla não devem ser repetidas. Se você não pode atribuir uma tecla, ela é ocupada pelo aplicativo ou sistema. Exemplo: CTRL+Q, CTRL+ALT+R, SHIFT+CTRL+T+SHIFL+T, ALT+SHIFT+Y, SHIFT+CTRL+G, etc."
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:222
+msgid "Other"
+msgstr "Outros"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:224
+#: TataruHelper/Utils/LanguagueWrapper.cs:227
+msgid "Always On Top"
+msgstr "Sempre visível"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:225
+msgid "Auto Hide"
+msgstr "Ocultar automaticamente"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:228
+msgid "Hide to Tray"
+msgstr "Ocultar para a Bandeja"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:229
+msgid "Show Timestamps"
+msgstr "Mostrar timestamps"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:231
+msgid "Streamer Window"
+msgstr "Janela Streamer"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:233
+msgid "Show Chat Window"
+msgstr "Mostrar janela de Bate-Papo"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:234
+msgid "Hide Chat Window"
+msgstr "Ocultar janela de Bate-Papo"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:236
+msgid "Reset Chat Position"
+msgstr "Redefinir Posição do Chat"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:238
+msgid "Translation failed:"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:240
+msgid "FF Status:"
+msgstr "Status FF:"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:242
+msgid "Not found"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:251
+msgid "Process found:"
+msgstr "Processo encontrado:"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:253
+msgid "Dear Patrons!"
+msgstr "Queridos patrões!"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:255
+msgid "We express our great appreciation to the people who support our project and motivate us for new achievements."
+msgstr "Manifestamos o nosso grande apreço às pessoas que apoiam o nosso projecto e motivam-nos para novas realizações."
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:256
+msgid "Thank you"
+msgstr "Obrigado"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:258
+msgid "System"
+msgstr "System"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:259
+msgid "Echo"
+msgstr "Echo"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:260
+msgid "Error"
+msgstr "Error"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:261
+msgid "NPCD"
+msgstr "NPC"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:262
+msgid "NPCA"
+msgstr "NPC(Announce)"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:263
+msgid "NPCD Realtime"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:264
+msgid "NPCA Realtime"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:265
+msgid "Recruitment"
+msgstr "Recruitment"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:266
+msgid "Say"
+msgstr "Say"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:267
+msgid "Shout"
+msgstr "Shout"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:268
+msgid "Party"
+msgstr "Party"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:269
+msgid "Tell"
+msgstr "Tell"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:270
+msgid "FreeCompany"
+msgstr "FreeCompany"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:271
+msgid "Yell"
+msgstr "Yell"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:272
+msgid "Alliance"
+msgstr "Alliance"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:273
+msgid "LinkShell1"
+msgstr "LinkShell 1"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:274
+msgid "LinkShell2"
+msgstr "LinkShell 2"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:275
+msgid "LinkShell3"
+msgstr "LinkShell 3"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:276
+msgid "LinkShell4"
+msgstr "LinkShell 4"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:277
+msgid "LinkShell5"
+msgstr "LinkShell 5"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:278
+msgid "LinkShell6"
+msgstr "LinkShell 6"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:279
+msgid "LinkShell7"
+msgstr "LinkShell 7"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:280
+msgid "LinkShell8"
+msgstr "LinkShell 8"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:282
+msgid "Novice Network"
+msgstr "Nova Rede"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:284
+msgid "Server Info"
+msgstr "Informação do Servidor"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:286
+msgid "CWLS1"
+msgstr "CWLS1"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:287
+msgid "CWLS2"
+msgstr "CWLS2"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:288
+msgid "CWLS3"
+msgstr "CWLS3"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:289
+msgid "CWLS4"
+msgstr "CWLS4"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:290
+msgid "CWLS5"
+msgstr "CWLS5"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:291
+msgid "CWLS6"
+msgstr "CWLS6"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:292
+msgid "CWLS7"
+msgstr "CWLS7"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:293
+msgid "CWLS8"
+msgstr "CWLS8"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:295
+msgid "Emotes"
+msgstr "Emotes"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:296
+msgid "Custom Emotes"
+msgstr "Emotes personalizados"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:298
+msgid "Downloading new version:"
+msgstr "Baixando a nova versão:"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:299
+msgid "Click here to update to new version."
+msgstr "Clique aqui para atualizar para a nova versão."
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:301
+msgid "Tataru Update"
+msgstr "Atualizar Tataru"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:303
+msgid "New Tataru helper version is available. Restart Application to update."
+msgstr "Nova versão disponível. Reinicie a aplicação para atualizar."
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:305
+msgid "Check updates"
+msgstr "Buscando Atts"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:306
+msgid "Looking for updates..."
+msgstr "Procurando por atualizações..."
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:307
+msgid "No updates found."
+msgstr "Att indisponivel"
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:310
+msgid "Hide"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:311
+msgid "Exit"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:312
+#: TataruHelper/Utils/LanguagueWrapper.cs:313
+msgid "Patrons"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:314
+msgid "Discord"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:315
+msgid "Modern settings (preview)"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:319
+msgid "Manage your in-game chat overlay windows. Each tab is an independent overlay."
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:321
+msgid "Switch tabs to edit a window's translation, appearance, hotkeys, and behavior in the other sections."
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:323
+msgid "Engine and language routing apply only to the selected chat window."
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:325
+msgid "Pick which chat channels are translated and the colour each one is rendered in."
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:327
+msgid "Choose the translation provider and source/target languages."
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:329
+msgid "Customize how the overlay looks and how text is laid out."
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:331
+msgid "Record system-wide shortcuts and control how the overlay reacts."
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:333
+msgid "Application-wide options that affect every chat window."
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:334
+msgid "Project links and credits."
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:337
+msgid "Theme"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:339
+msgid "Choose how the settings window and overlay should be coloured."
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:340
+msgid "Use system theme"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:341
+msgid "Light"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:342
+msgid "Dark"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:345
+msgid "Press a key combination…"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:346
+msgid "Clear"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:348
+msgid "Hide the settings window to the system tray when minimized."
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:350
+msgid "Interface language for the settings window and overlays."
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:353
+msgid "Updates"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:355
+msgid "Check whether a newer release of Tataru Helper is available."
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:356
+msgid "Update available"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:359
+msgid "Boss quotes"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:362
+msgid "Translators"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:364
+msgid "Enable only translators you need. Disabled translators are hidden on the Translation page."
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:365
+msgid "Free"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:366
+msgid "Paid"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:367
+msgid "AI"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:368
+msgid "Azure key"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:369
+msgid "Azure region"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:370
+msgid "Google Cloud key"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:371
+msgid "DeepL API key"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:372
+msgid "Yandex API key"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:373
+msgid "Yandex folder ID"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:374
+msgid "OpenAI key"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:375
+msgid "OpenAI model (optional)"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:376
+msgid "DeepSeek key"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:377
+msgid "DeepSeek model (optional)"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:379
+msgid "Uses the Yandex Cloud API key and folder ID from the Yandex row above."
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:381
+msgid "Model alias (optional, e.g. yandexgpt/latest, yandexgpt-lite/latest)"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:384
+msgid "Real-time FFXIV chat translator"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:386
+msgid "Choose text style and readability defaults for this overlay window."
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:388
+msgid "Configure how the chat overlay behaves in game."
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:389
+#| msgid "Auto Hide"
+msgid "Auto Hide Timeout"
+msgstr ""
+
+#: TataruHelper/Utils/LanguagueWrapper.cs:390
+msgid "Timeout in seconds."
+msgstr ""
+
+#~ msgid "Cutscenes/No delay"
+#~ msgstr "Cutscenes/No delay"
+
+#~ msgid ""
+#~ "EXPERIMENTAL FUNCTION. If this option is active, the application will "
+#~ "catch text from quest clouds and cutscene subtitles directly, not from "
+#~ "the chatlog. Errors can occur."
+#~ msgstr ""
+#~ "EXPERIMENTAL FUNCTION. If this option is active, the application will "
+#~ "catch text from quest clouds and cutscene subtitles directly, not from "
+#~ "the chatlog. Errors can occur."
+
+#~ msgid "Speaker names may not always display correctly."
+#~ msgstr "Speaker names may not always display correctly."
+
+#~ msgid "Translation engine error. Consider switching to other engine."
+#~ msgstr "Translation engine error. Consider switching to other engine."
+
+#~ msgid ""
+#~ "FFXIV process not found. Make sure that FFXIV is running using DirectX 11."
+#~ msgstr ""
+#~ "FFXIV process not found. Make sure that FFXIV is running using DirectX 11."
+
+#~ msgid "Translation engine error. Switching to:"
+#~ msgstr "Translation engine error. Switching to:"
+
+#~ msgid "Couldn't find FFXIV process."
+#~ msgstr "Couldn't find FFXIV process."
+
+#~ msgid "Interval Width"
+#~ msgstr "Spacing"
+
+#~ msgid "English"
+#~ msgstr "English"
+
+#~ msgid "Russian"
+#~ msgstr "Russian"
+
+#~ msgid "Show Hide Chat Window Hotkey Tooltip"
+#~ msgstr ""
+#~ "Hotkey to hide a Chat Box when it is not needed and call it up when it is "
+#~ "needed. You should use Ctrl/Shift/Alt + Any key or combination of "
+#~ "Ctrl+Shift+Alt + Any key, etc. The key combinations must not be repeated. "
+#~ "If you cannot assign a key, it is occupied by the application or system. "
+#~ "Example: CTRL+Q, CTRL+ALT+R, SHIFT+ALT+CTRL+T, ALT+SHIFT+Y, SHIFT+CTRL+G, "
+#~ "etc."
+
+#~ msgid "Click Through HotKey ToolTip"
+#~ msgstr ""
+#~ "Hotkey to turn on/off clicks through the windows. You should use Ctrl/"
+#~ "Shift/Alt + Any key or combination of Ctrl+Shift+Alt + Any key, etc. The "
+#~ "key combinations must not be repeated. If you cannot assign a key, it is "
+#~ "occupied by the application or system. Example: CTRL+Q, CTRL+ALT+R, "
+#~ "SHIFT+ALT+CTRL+T, ALT+SHIFT+Y, SHIFT+CTRL+G, etc."
+
+#~ msgid "Clear Chat HotKey ToolTip"
+#~ msgstr ""
+#~ "Hotkey to clear any text in the chatbox. You should use Ctrl/Shift/Alt + "
+#~ "Any key or combination of Ctrl+Shift+Alt + Any key, etc. The key "
+#~ "combinations must not be repeated. If you cannot assign a key, it is "
+#~ "occupied by the application or system. Example: CTRL+Q, CTRL+ALT+R, "
+#~ "SHIFT+ALT+CTRL+T, ALT+SHIFT+Y, SHIFT+CTRL+G, etc."
+
+#~ msgid "Direct Memory Reading"
+#~ msgstr "Cutscenes/No delay"
+
+#~ msgid "Direct Memory Reading Tooltip"
+#~ msgstr ""
+#~ "EXPERIMENTAL FUNCTION. If this option is active, the application will "
+#~ "catch text from quest clouds and cutscene subtitles directly, not from "
+#~ "the chatlog. Errors can occur."
+
+#~ msgid "We express great appreciation"
+#~ msgstr ""
+#~ "We express our great appreciation to the people who support our project "
+#~ "and motivate us for new achievements."
+
+msgid "English"
+msgstr ""
+
+msgid "Russian"
+msgstr ""
+
+msgid "Per Window Settings"
+msgstr ""
+
+msgid "Application"
+msgstr ""
+
+msgid "Real-Time Translation"
+msgstr ""
+
+msgid "[{0} → {1}]"
+msgstr ""
+
+msgid "Translate NPC dialogue and cutscene subtitles as they appear, without waiting for the chat log. The chat-log copies of those lines are skipped so nothing is shown twice."
+msgstr ""
+
+msgid "Yandex Cloud API key"
+msgstr ""
+
+msgid "Yandex Cloud folder ID"
+msgstr ""
+
+msgid "Gemini API key"
+msgstr ""
+
+msgid "Gemini model (optional, e.g. gemini-2.5-flash)"
+msgstr ""
+

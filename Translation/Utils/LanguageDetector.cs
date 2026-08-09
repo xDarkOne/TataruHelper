@@ -1,9 +1,10 @@
-﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
-
-using IvanAkcheurov.NTextCat.Lib;
-using System;
+﻿using System;
+using System.IO;
 using System.Linq;
+
+using NTextCat;
+
+using Microsoft.Extensions.Logging;
 
 namespace Translation.Utils
 {
@@ -16,17 +17,30 @@ namespace Translation.Utils
         bool _LanguageIdentificationFailed = false;
         string _NTextCatLanguageModelsPath;
 
-        ILog _Logger;
+        ILogger _Logger;
 
-        public LanguageDetector(double maxSameLanguagePercent, string nTextCatLanguageModelsPath, ILog logger)
+        public LanguageDetector(double maxSameLanguagePercent, string nTextCatLanguageModelsPath, ILogger logger)
         {
             _Logger = logger;
             _MaxSameLanguagePercent = maxSameLanguagePercent;
 
-            _NTextCatLanguageModelsPath = nTextCatLanguageModelsPath;
+            // Same as the language catalogs: the profile ships next to the
+            // executable, so it is resolved against that rather than against
+            // the working directory, which is not the executable's folder when
+            // the process is elevated or started from a shortcut. Failing to
+            // load it switches detection off for the rest of the session.
+            _NTextCatLanguageModelsPath = ResolvePath(nTextCatLanguageModelsPath);
         }
 
-        public string TryDetectLanguague(string text)
+        private static string ResolvePath(string path)
+        {
+            if (string.IsNullOrEmpty(path) || Path.IsPathRooted(path))
+                return path;
+
+            return Path.Combine(AppContext.BaseDirectory, path);
+        }
+
+        public string TryDetectLanguage(string text)
         {
             string result = string.Empty;
 
@@ -50,7 +64,7 @@ namespace Translation.Utils
             catch (Exception e)
             {
                 _LanguageIdentificationFailed = true;
-                _Logger?.WriteLog(e.ToString());
+                _Logger?.LogInformation("{Message}", e.ToString());
             }
 
             return result;
@@ -69,7 +83,7 @@ namespace Translation.Utils
                     koreanCount++;
             }
 
-            return (((double)koreanCount / (double)sentence.Length)>= _MaxSameLanguagePercent);
+            return (((double)koreanCount / (double)sentence.Length) >= _MaxSameLanguagePercent);
         }
 
         public bool HasJapanese(string sentence)

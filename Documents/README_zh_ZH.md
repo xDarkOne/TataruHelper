@@ -1,33 +1,31 @@
-# Tataru Helper
+<p align="center">
+  <img src="./Tataru_img.png" width="112" alt="Tataru Helper app icon" />
+</p>
 
-[![Current Version](https://img.shields.io/github/release/NightlyRevenger/TataruHelper)](https://github.com/NightlyRevenger/TataruHelper/releases) ![GitHub Releases (by Asset)](https://img.shields.io/github/downloads/NightlyRevenger/TataruHelper/latest/TataruHelper-0.9.40-full.nupkg?label=Downloads)  [![Crowdin](https://badges.crowdin.net/tataru-helper/localized.svg)](https://crowdin.com/project/tataru-helper) <a href="https://discord.gg/bSrpbd9">
-        <img src="https://img.shields.io/discord/592039000538349569?logo=discord"
-            alt="chat on Discord"></a>
-            
-[下载链接](https://github.com/NightlyRevenger/TataruHelper/releases/latest/download/Setup.exe)( ---> 下载 Setup.exe)  
--
-[Tataru's Discord Server](https://discord.gg/bSrpbd9)  
--
----
-![TataruHead](./Tataru_img.png) ![LiveAction](./LiveAction.gif)  
-![LiveChat](./2020-08-18_21-21-05.gif)
- 
-## [使用演示](https://youtu.be/7HiQXzmkQuw)  
+<h1 align="center">Tataru Helper</h1>
 
-## [捐赠支持作者](https://github.com/NightlyRevenger/TataruHelper/blob/master/README.md#support)  
+<p align="center">Real-time translation overlay for Final Fantasy XIV in-game text.</p>
+<p align="center">Maintained fork of the original project: <a href="https://github.com/NightlyRevenger/TataruHelper">NightlyRevenger/TataruHelper</a>.</p>
 
----
-## APP介绍
-* [中文](#中文)
-   * [安装](#安装)
-   * [使用](#使用)
-   * [开发 / 翻译](#开发)
-   * [许可](#许可)
-   * [致谢](#致谢)
-   * [联系人](#联系人)
-   * [支持我们](#支持我们)
-   
----
+<p align="center">
+  <a href="https://github.com/xDarkOne/TataruHelper/actions/workflows/build.yml"><img src="https://github.com/xDarkOne/TataruHelper/actions/workflows/build.yml/badge.svg" alt="Build" /></a>
+  <a href="https://github.com/xDarkOne/TataruHelper/releases/latest"><img src="https://img.shields.io/github/v/release/xDarkOne/TataruHelper?label=Release" alt="Release" /></a>
+  <a href="../LICENSE"><img src="https://img.shields.io/github/license/xDarkOne/TataruHelper" alt="License" /></a>
+  <img src="https://img.shields.io/badge/.NET-10-512BD4?logo=dotnet&logoColor=white" alt=".NET 10" />
+  <a href="https://crowdin.com/project/tataru-helper"><img src="https://badges.crowdin.net/tataru-helper/localized.svg" alt="Crowdin" /></a>
+  <a href="https://discord.gg/bSrpbd9"><img src="https://img.shields.io/discord/592039000538349569?label=Discord&logo=discord" alt="Discord" /></a>
+</p>
+
+<p align="center"><strong>Download Stats</strong></p>
+<p align="center">
+  <a href="https://github.com/xDarkOne/TataruHelper/releases"><img src="https://img.shields.io/github/downloads/xDarkOne/TataruHelper/Setup.exe?label=Setup.exe%20Total" alt="Setup.exe total downloads" /></a>
+  <a href="https://github.com/xDarkOne/TataruHelper/releases/latest/download/TataruHelper-0.10.5-stable-full.nupkg"><img src="https://img.shields.io/github/downloads/xDarkOne/TataruHelper/latest/TataruHelper-0.10.5-stable-full.nupkg?label=Current%20Update%20Full" alt="Current full update file downloads" /></a>
+  <a href="https://github.com/xDarkOne/TataruHelper/releases/latest/download/TataruHelper-0.10.5-stable-delta.nupkg"><img src="https://img.shields.io/github/downloads/xDarkOne/TataruHelper/latest/TataruHelper-0.10.5-stable-delta.nupkg?label=Current%20Update%20Delta" alt="Current delta update file downloads" /></a>
+</p>
+
+<p align="center"><strong><a href="https://github.com/xDarkOne/TataruHelper/releases/latest/download/Setup.exe">Download Setup.exe</a></strong> · <a href="./Guide.MD">Guide</a> · <a href="https://discord.gg/bSrpbd9">Discord</a></p>
+
+<p align="center"><strong>Languages:</strong> <a href="../README.md">EN</a> | <a href="README_ru_RU.md">RU</a> | <a href="README_ko_KR.md">KO</a> | <a href="README_es_ES.md">ES</a> | <a href="README_ca_ES.md">CA</a> | <a href="README_pl_PL.md">PL</a> | <a href="README_pt_BR.md">PT-BR</a> | <a href="README_uk_UA.md">UK</a> | <a href="README_zh_ZH.md">ZH</a> | <a href="README_ja_JP.md">JA</a></p>
 
 #### 中文
 由塔塔露团队开发
@@ -40,15 +38,14 @@ Tataru Helper - 一个对最终幻想XIV（FF14）国际服中主线任务、普
   - 自动更新
   - 塔塔露赛高！
 
-
 ## 安装
 
 Tataru Helper 要求:  
 Windows 7 **x64**或之后版本系统 (**只支持64位系统**).  
-[Microsoft .NET Framework 4.6.2 ](https://www.microsoft.com/net/download/dotnet-framework-runtime)或之后版本.   
+[.NET 10 SDK/Runtime](https://dotnet.microsoft.com/download)或之后版本.   
 游戏本体：Final Fantasy XIV with **DirectX 11** and **x64**.  
 
-1. 下载最新版本：[点击这里](https://github.com/NightlyRevenger/TataruHelper/releases/latest) (Setup.exe).
+1. 下载最新版本：[点击这里](https://github.com/xDarkOne/TataruHelper/releases/latest) (Setup.exe).
 2. 运行Setup.exe文件，如果跳出Windows正在保护您的电脑（Windows protected your PC）提示， 点击更多信息（more info）并选择继续安装（run anyway）。快捷方式将出现在桌面上。
 3. 安装完成后Tataru Helper将会自动启动，届时您可以设置待译语言和译后语言和初始化设置
 4. 将浮动窗口拖到合适的位置
@@ -78,31 +75,18 @@ P.S. 安装完成后，无需再从Setup.exe启动软件，那只是个安装文
 
 感谢各位为这个开源项目做贡献的老铁！以下是本项目的基石:  
 [WPF Toolkit™](https://github.com/xceedsoftware/wpftoolkit)  
-[BondTech.HotKeyManagement](https://github.com/bondtech/HotKey-Manager-for-WinForm-and-WPF-Apps)  
+[NHotKey.Wpf](https://github.com/thomaslevesque/NHotkey)  
 [NotifyIcon WPF](https://bitbucket.org/hardcodet/notifyicon-wpf/)  
 [Sharlayan](https://github.com/FFXIVAPP/sharlayan)  
 [Tataru Art by Nezusagi](https://www.deviantart.com/nezusagi)  
-[Squirrel.Windows](https://github.com/Squirrel/Squirrel.Windows)  
-
+[Velopack](https://github.com/velopack/velopack)
 ## 联系人
 
 来Discord找我们吧: [discord](https://discord.gg/bSrpbd9)  
 
 如果你有任何问题，请找这个人：（不要找翻译本人）
-xDarkOne:  
-Discord: xDarkOne#6486  
-Telegram: [click](https://t.me/xDarkOne)  
-VK: [click](https://vk.com/velikov_ra)  
-Twitch: [xDark0ne](https://www.twitch.tv/xdark0ne)  
-NightlyRevenger(developer):  
-[nightlyrevenger@yandex.ru](mailto:nightlyrevenger@yandex.ru)  
-
 ## 支持我们
 
 如果你想帮助支持我们，请使用以下方法：  
-MasterCard(Sberbank): 5469 3800 2554 9048  
-Yandex.Money: [4100172621059](https://money.yandex.ru/to/4100172621059)  
-PayPal: [paypal.me/xdarkone](https://www.paypal.me/xdarkone)  
-Patreon: [TataruHelper](https://www.patreon.com/TataruHelper)  
 
 ---
